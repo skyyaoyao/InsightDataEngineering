@@ -34,11 +34,7 @@ def validate_zipcode_str(zipcode_str):
         return False, 0
 
 """
-Use cmte_id and date as key, put the record as val in hash_by_date.
-save the useful data needed in output file, medianvals_by_date.txt,
-in the record which is Record type.
-record.amt_list save all transaction_amt, will be used to calculate
-median of this special cmte_id + date. 
+Use cmte_id and date as key, put the record as val in hash_by_date. 
 """    
 def write_record_by_date(line, hashmap):
     key_by_date = line[0] + line[13]
@@ -55,14 +51,6 @@ def write_record_by_date(line, hashmap):
 
 """
 Use zipcode as key, put the record as val in hash_by_zipcode.
-save the useful data needed in output file, medianvals_by_zip.txt,
-in the record which is Record type.
-record.amt_max_heap save the left half of all transaction_amt, 
-record.amt_min_heap save the right half of all transaction_amt,
-since there's no max top heap structure in Python, use min top heap
-but saved the negative value inside as record.amt_max_heap.
-Then for each stream data line, only need the top values of this amt_max_heap
-and amt_min_heap to determine the median, save lots of time. 
 """         
 def write_record_by_zip(line, zipcode, hashmap):
     key_by_zip = zipcode
@@ -84,9 +72,8 @@ def write_record_by_zip(line, zipcode, hashmap):
     return record
 
 """
-Write to medianvals_by_zip.txt for each valid line data.
 As stream data flow, only need the top values of record.amt_max_heap
-and record.amt_min_heap to determine the median, save lots of time. 
+and record.amt_min_heap to determine the median. 
 """  
 def write_file_by_zip(file, record):
     if len(record.amt_min_heap) == len(record.amt_max_heap):
@@ -98,9 +85,7 @@ def write_file_by_zip(file, record):
 
 
 """
-Write to medianvals_by_date.txt for each valid line data.
-Sort the hash_by_date by the key, then the output should be sorted as cmte_id first,
-then date.
+Sort the hash_by_date by the key, then the output should be sorted as cmte_id first, then date.
 Also sort the amt_list to determine the median for each output line.
 """          
 def write_file_by_date(file, hashmap):
@@ -115,11 +100,10 @@ def write_file_by_date(file, hashmap):
                 cur_median = '%.0f' % val.amt_list[int(val.total_trans / 2)]
             output_file_by_date.write(val.cmte_id + '|' + val.tran_dt +'|' + str(cur_median) + '|' 
                                       + str(val.total_trans) + '|' + str(val.total_amt))
-            output_file_by_date.write('\n')                 
+            output_file_by_date.write('\n')
+               
 """
 Genterate data structure Record to save useful data.
-amt_list is for medianvals_by_date.txt
-amt_min_heap and amt_max_heap is for medianvals_by_zip.txt
 """     
 class Record:
     def __init__(self):
