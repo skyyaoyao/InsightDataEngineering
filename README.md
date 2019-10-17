@@ -33,14 +33,6 @@ and amt_min_heap to determine the median, which save time (O(1) to get the media
 
 Then to write cmte_id, zipcode, median, total transactions, and total amounts to medianvals_by_zip.txt for each new valid input line of data.
 
-Finally, I want to thank the Insight Data Science to give me this opportunity to do this selection project.
-Hope I can have honor to work as a member of you in future.
-
-Best Regards,
-
-Yao Yao 10/28/2017
- 
-
   
                 
    
